@@ -1,0 +1,20 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "judul": "Bakso Urat",
+      "deskripsi": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+      "tag": "Makanan",
+      "harga": "10.000",
+      "foto": "bakso.jpeg"
+    },
+    {
+      "id": "2",
+      "judul": "Jus",
+      "deskripsi": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+      "tag": "Minuman",
+      "harga": "10.000",
+      "foto": "jus.jpg"
+    }
+  ]
+}

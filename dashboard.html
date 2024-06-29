@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    /* Animasi untuk form produk */
+    .add-product-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      /* Semi-transparent background */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: translateX(100%);
+      /* Start off-screen to the right */
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .panel-open {
+      transform: translateX(0);
+      /* Slide in from the right */
+    }
+
+    .panel-content {
+      background-color: white;
+      padding: 20px;
+      max-width: 50%;
+      /* Set the width of the panel */
+      overflow-y: auto;
+      /* Enable scrolling if content exceeds panel height */
+    }
+
+    /* Shadow effect for selected product */
+    .product-item.selected {
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+  <title>Tiara-UAS</title>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="bg-gray-200">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex justify-center">
+        <img src="logo-lp3i.png" alt="Logo" class="h-24 w-55 py-5" />
+      </div>
+    </div>
+  </nav>
+
+  <section class="bg-gray-100 mx-auto space-y-5 text-center">
+    <header>
+      <div class="text-center space-y-3 p-5">
+        <h2 class="text-3xl font-bold">Menu Restoran</h2>
+        <p class="text-gray-600">
+          Berikut ini adalah beberapa menu yang tersedia:
+        </p>
+      </div>
+      <div class="flex justify-center space-x-5 mb-5">
+        <button id="addProductButton" class="bg-green-600 text-white px-3 py-2 rounded-lg md:inline-block">
+          Tambah Produk
+        </button>
+        <button id="editProductButton" class="bg-blue-600 text-white px-3 py-2 rounded-lg md:inline-block">
+          Edit Produk
+        </button>
+        <button id="deleteProductButton" class="bg-red-600 text-white px-3 py-2 rounded-lg md:inline-block">
+          Hapus Produk
+        </button>
+        <button id="addTagButton" class="bg-purple-600 text-white px-3 py-2 rounded-lg md:inline-block">
+          Tambah Tag
+        </button>
+      </div>
+    </header>
+    <section class="container mx-auto space-y-5 text-center">
+      <div id="productContainer" class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8">
+        <!--Component-->
+        <div class="product-item border border-gray-200 rounded-3xl space-y-3 p-4" data-id="1">
+          <div class="relative">
+            <img class="rounded-3xl mx-auto object-cover h-64 w-full" src="bakso.jpeg" alt="Bakso Urat" />
+          </div>
+          <div class="p-5 space-y-3 text-left">
+            <h4 class="font-bold">Bakso Urat</h4>
+            <p class="text-gray-600">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            </p>
+            <span
+              class="inline-block bg-blue-200 text-gray-700 rounded-full px-3 py-1 text-sm font-semibold">Makanan</span>
+            <p class="text-xl font-bold text-gray-800">Rp10.000</p>
+          </div>
+        </div>
+        <!--End Component-->
+
+        <!--Component-->
+        <div class="product-item border border-gray-200 rounded-3xl space-y-3 p-4" data-id="2">
+          <div class="relative">
+            <img class="rounded-3xl mx-auto object-cover h-64 w-full" src="jus.jpg" alt="Jus Buah" />
+          </div>
+          <div class="p-5 space-y-3 text-left">
+            <h4 class="font-bold">Jus Buah</h4>
+            <p class="text-gray-600">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            </p>
+            <span
+              class="inline-block bg-yellow-200 text-gray-700 rounded-full px-3 py-1 text-sm font-semibold">Minuman</span>
+            <p class="text-xl font-bold text-gray-800">Rp7.000</p>
+          </div>
+        </div>
+        <!--End Component-->
+
+        <!--Component-->
+        <div class="product-item border border-gray-200 rounded-3xl space-y-3 p-4" data-id="3">
+          <div class="relative">
+            <img class="rounded-3xl mx-auto object-cover h-64 w-full" src="bakso.jpeg" alt="Bakso Urat" />
+          </div>
+          <div class="p-5 space-y-3 text-left">
+            <h4 class="font-bold">Bakso Urat</h4>
+            <p class="text-gray-600">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+            </p>
+            <span
+              class="inline-block bg-blue-200 text-gray-700 rounded-full px-3 py-1 text-sm font-semibold">Makanan</span>
+            <p class="text-xl font-bold text-gray-800">Rp10.000</p>
+          </div>
+        </div>
+        <!--End Component-->
+
+        <!--Component-->
+        <div class="product-item border border-gray-200 rounded-3xl space-y-3 p-4" data-id="2">
+          <div class="relative">
+            <img class="rounded-3xl mx-auto object-cover h-64 w-full" src="jus.jpg" alt="Jus Buah" />
+          </div>
+          <div class="p-5 space-y-3 text-left">
+            <h4 class="font-bold">Jus Buah</h4>
+            <p class="text-gray-600">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            </p>
+            <span
+              class="inline-block bg-yellow-200 text-gray-700 rounded-full px-3 py-1 text-sm font-semibold">Minuman</span>
+            <p class="text-xl font-bold text-gray-800">Rp7.000</p>
+          </div>
+        </div>
+        <!--End Component-->
+      </div>
+    </section>
+  </section>
+
+  <!-- Panel untuk form produk -->
+  <div id="productPanel" class="add-product-panel">
+    <div class="panel-content relative">
+      <h2 id="panelTitle" class="text-2xl font-bold mb-3">Tambah Produk</h2>
+      <form id="productForm" class="space-y-3">
+        <input type="hidden" id="productId" value="" />
+        <div class="flex justify-center mb-5">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="judul">Judul Makanan:</label>
+          <input
+            class="shadow appearance-none border rounded w-3/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="judul" type="text" placeholder="Masukkan judul makanan" />
+        </div>
+        <div class="flex justify-center mb-5">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="deskripsi">Deskripsi:</label>
+          <textarea
+            class="shadow appearance-none border rounded w-3/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="deskripsi" placeholder="Masukkan deskripsi"></textarea>
+        </div>
+        <div class="flex justify-center mb-5">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="tag">Tag:</label>
+          <input
+            class="shadow appearance-none border rounded w-3/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="tag" type="text" placeholder="Masukkan tag (contoh: Makanan, Minuman)" />
+        </div>
+        <div class="flex justify-center mb-5">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="harga">Harga:</label>
+          <div class="relative">
+            <span class="text-gray-700 absolute inset-y-0 left-0 flex items-center pl-2">Rp</span>
+            <input
+              class="shadow appearance-none border rounded w-3/4 py-2 px-3 pl-8 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="harga" type="text" placeholder="Masukkan harga" />
+          </div>
+        </div>
+        <div class="flex justify-center mb-5">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="foto">Foto:</label>
+          <input
+            class="shadow appearance-none border rounded w-3/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="foto" type="file" />
+        </div>
+        <div class="flex justify-center">
+          <button id="saveProductButton" type="submit"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Simpan Produk
+          </button>
+          <button id="closePanelButton" type="button"
+            class="ml-3 bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Tutup
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Panel untuk form tambah tag -->
+<div id="tagPanel" class="add-product-panel">
+  <div class="panel-content relative">
+    <h2 id="tagPanelTitle" class="text-2xl font-bold mb-3">Tambah Tag</h2>
+    <form id="tagForm" class="space-y-3">
+      <input type="hidden" id="tagId" value="" />
+      <div class="flex justify-center mb-5">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="tagNumber">Nomor Tag:</label>
+        <input
+          class="shadow appearance-none border rounded w-3/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="tagNumber" type="text" placeholder="Masukkan nomor tag" />
+      </div>
+      <div class="flex justify-center mb-5">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="tagName">Nama Tag:</label>
+        <input
+          class="shadow appearance-none border rounded w-3/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="tagName" type="text" placeholder="Masukkan nama tag" />
+      </div>
+      <div class="flex justify-center">
+        <button id="saveTagButton" type="submit"
+          class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Simpan Tag
+        </button>
+        <button id="closeTagPanelButton" type="button"
+          class="ml-3 bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Tutup
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+  <footer class="bg-black text-white py-3">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-center">
+        <p>© 2024 UAS Front End Development by Tiara</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script JavaScript -->
+<!-- Script JavaScript -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Deklarasi variabel yang ada pada produk di UI
+    const addProductButton = document.getElementById("addProductButton");
+    const editProductButton = document.getElementById("editProductButton");
+    const deleteProductButton = document.getElementById("deleteProductButton");
+    const productPanel = document.getElementById("productPanel");
+    const productForm = document.getElementById("productForm");
+    const productContainer = document.getElementById("productContainer");
+    const closePanelButton = document.getElementById("closePanelButton");
+    const panelTitle = document.getElementById("panelTitle");
+    const productIdField = document.getElementById("productId");
+    let selectedProduct = null;
+
+    // Menambahkan event listener untuk "Tambah Produk" button
+    addProductButton.addEventListener("click", () => {
+      resetForm();
+      productPanel.classList.add("panel-open");
+      panelTitle.textContent = "Tambah Produk";
+      selectedProduct = null;
+    });
+
+    // Menambahkan event listener untuk "Edit Produk" button
+    editProductButton.addEventListener("click", () => {
+      const selectedProductItem = document.querySelector(".product-item.selected");
+      if (!selectedProductItem) {
+        alert("Pilih produk untuk diedit terlebih dahulu.");
+        return;
+      }
+
+      // Mengisi form dengan data produk yang dipilih
+      const productTitle = selectedProductItem.querySelector("h4").textContent;
+      const productDescription = selectedProductItem.querySelector("p.text-gray-600").textContent;
+      const productTag = selectedProductItem.querySelector(".bg-blue-200").textContent;
+      const productPrice = selectedProductItem.querySelector("p.text-xl").textContent;
+
+      productIdField.value = selectedProductItem.getAttribute("data-id");
+      document.getElementById("judul").value = productTitle;
+      document.getElementById("deskripsi").value = productDescription;
+      document.getElementById("tag").value = productTag;
+      document.getElementById("harga").value = productPrice.replace("Rp", "").trim();
+
+      // Buka panel produk untuk pengeditan
+      productPanel.classList.add("panel-open");
+      panelTitle.textContent = "Edit Produk";
+      selectedProduct = selectedProductItem;
+    });
+
+    // Menambahkan event listener untuk form produk submission
+    productForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      // Dapatkan nilai-nilai form
+      const judul = document.getElementById("judul").value.trim();
+      const deskripsi = document.getElementById("deskripsi").value.trim();
+      const tag = document.getElementById("tag").value.trim();
+      let harga = document.getElementById("harga").value.trim();
+      const foto = document.getElementById("foto").files[0];
+
+      // Validasi form
+      if (!judul || !deskripsi || !tag || !harga || !foto) {
+        alert("Silakan isi semua kolom.");
+        return;
+      }
+
+      // Tambahkan otomatis awalan "Rp" jika tidak ada
+      if (!harga.startsWith("Rp")) {
+        harga = "Rp" + harga;
+      }
+
+      // Baca gambar yang diunggah
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        // Buat komponen produk baru atau perbarui produk yang ada
+        const newProductHTML = `
+          <div class="border border-gray-200 rounded-3xl space-y-3 p-4 product-item" data-id="${productIdField.value}">
+            <div class="relative">
+              <img class="rounded-3xl mx-auto object-cover h-64 w-full" src="${e.target.result}" alt="${judul}">
+            </div>
+            <div class="p-5 space-y-3 text-left">
+              <h4 class="font-bold">${judul}</h4>
+              <p class="text-gray-600">${deskripsi}</p>
+              <span class="inline-block bg-blue-200 text-gray-700 rounded-full px-3 py-1 text-sm font-semibold">${tag}</span>
+              <p class="text-xl font-bold text-gray-800">${harga}</p>
+            </div>
+          </div>
+        `;
+
+        if (selectedProduct) {
+          // Perbarui produk yang ada
+          selectedProduct.outerHTML = newProductHTML;
+        } else {
+          // Masukkan produk baru ke dalam container
+          productContainer.insertAdjacentHTML("beforeend", newProductHTML);
+        }
+
+        // Sembunyikan panel form produk
+        productPanel.classList.remove("panel-open");
+
+        // Reset form
+        resetForm();
+
+        // Tambahkan event listener untuk produk yang baru ditambahkan
+        const newProductItem = productContainer.lastElementChild;
+        addProductItemListeners(newProductItem);
+      };
+
+      reader.readAsDataURL(foto);
+    });
+
+    // Menambahkan event listener untuk tombol "Hapus Produk"
+    deleteProductButton.addEventListener("click", () => {
+      const selectedProductItem = document.querySelector(".product-item.selected");
+      if (!selectedProductItem) {
+        alert("Pilih produk untuk dihapus terlebih dahulu.");
+        return;
+      }
+
+      // Konfirmasi dialog untuk penghapusan
+      const confirmation = confirm("Apakah Anda yakin ingin menghapus ini?");
+      if (confirmation) {
+        // Hapus produk yang dipilih dari container
+        selectedProductItem.remove();
+      }
+    });
+
+    // Menambahkan event listener untuk memilih item produk
+    productContainer.addEventListener("click", (event) => {
+      const productItems = document.querySelectorAll(".product-item");
+      productItems.forEach((item) => {
+        item.classList.remove("selected");
+      });
+
+      const clickedItem = event.target.closest(".product-item");
+      if (clickedItem) {
+        clickedItem.classList.add("selected");
+      }
+    });
+
+    // Fungsi untuk mereset form
+    function resetForm() {
+      productIdField.value = "";
+      document.getElementById("judul").value = "";
+      document.getElementById("deskripsi").value = "";
+      document.getElementById("tag").selectedIndex = 0; // Reset dropdown tag ke opsi pertama
+      document.getElementById("harga").value = "";
+      document.getElementById("foto").value = "";
+    }
+
+    // Event listener for the close button
+    closePanelButton.addEventListener("click", () => {
+      productPanel.classList.remove("panel-open");
+      resetForm();
+    });
+
+    // Fungsi untuk menambahkan event listener ke item produk yang baru ditambahkan
+    function addProductItemListeners(productItem) {
+      productItem.addEventListener("click", () => {
+        const productItems = document.querySelectorAll(".product-item");
+        productItems.forEach((item) => {
+          item.classList.remove("selected");
+        });
+
+        productItem.classList.add("selected");
+      });
+    }
+
+    // Event listener untuk tombol "Tambah Tag"
+    const addTagButton = document.getElementById("addTagButton");
+    const tagPanel = document.getElementById("tagPanel");
+    const tagForm = document.getElementById("tagForm");
+    const closeTagPanelButton = document.getElementById("closeTagPanelButton");
+    const tagPanelTitle = document.getElementById("tagPanelTitle");
+    const tagIdField = document.getElementById("tagId");
+
+    addTagButton.addEventListener("click", () => {
+      resetTagForm();
+      tagPanel.classList.add("panel-open");
+      tagPanelTitle.textContent = "Tambah Tag";
+    });
+
+    // Event listener untuk form tag submission
+    tagForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      // Dapatkan nilai-nilai form tag
+      const tagNumber = document.getElementById("tagNumber").value.trim();
+      const tagName = document.getElementById("tagName").value.trim();
+
+      // Validasi form tag
+      if (!tagNumber || !tagName) {
+        alert("Silakan isi nomor dan nama tag.");
+        return;
+      }
+
+      // Simpan tag yang ditambahkan ke dalam option dropdown di form tambah produk
+      const tagOption = document.createElement("option");
+      tagOption.value = `${tagNumber} - ${tagName}`;
+      tagOption.textContent = `${tagNumber} - ${tagName}`;
+      document.getElementById("tag").appendChild(tagOption);
+
+      // Sembunyikan panel form tag
+      tagPanel.classList.remove("panel-open");
+
+      // Reset form tag
+      resetTagForm();
+    });
+
+    // Event listener untuk tombol "Tutup" pada panel tag
+    closeTagPanelButton.addEventListener("click", () => {
+      tagPanel.classList.remove("panel-open");
+      resetTagForm();
+    });
+
+    // Fungsi untuk mereset form tag
+    function resetTagForm() {
+      document.getElementById("tagNumber").value = "";
+      document.getElementById("tagName").value = "";
+    }
+  });
+</script>
+
+  
+</body>
+
+</html>
